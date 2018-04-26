@@ -28,4 +28,7 @@ public class BaseClock extends TimerTask {
 	public void addListener(Runnable r, int frequency) { 
 		listeners.put(r, frequency);
 	}
+	public void removeListener(Runnable r) {
+		listeners.remove(r);
+	}
 }
