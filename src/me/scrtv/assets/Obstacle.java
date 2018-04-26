@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import me.scrtv.main.Main;
+import me.scrtv.utils.ColorRamp;
 import me.scrtv.utils.PixelPanel;
 import me.scrtv.utils.Utils;
 
@@ -14,7 +15,7 @@ public class Obstacle {
 		int hp = power * Main.cSP;
 		System.out.println("obstacle with " + hp);
 		PixelPanel pobst = new PixelPanel(1, 1, Main.ppb);
-		pobst.drawPixel(0, 0, Utils.cramp(power));
+		pobst.drawPixel(0, 0, ColorRamp.ryg.use((double) (Main.maxobsthp - power) / (double)Main.maxobsthp));
 		// TODO color per time it takes to destroy the block
 		pobst.setProperty("strength", power);
 		pobst.addOverlay(Utils.parseInt(power), 0, 0, Color.BLUE, new Font(Font.DIALOG_INPUT, Font.PLAIN, Main.ppb / 2), true);

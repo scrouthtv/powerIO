@@ -1,6 +1,7 @@
 package me.scrtv.utils;
 
 import java.awt.Color;
+import java.util.HashMap;
 
 public class Utils {
 	public static boolean contains(Side[] sides, Side side) {
@@ -25,14 +26,17 @@ public class Utils {
 		else
 			return Integer.toString(number);
 	}
-	public static Color cramp(int pos) { // color ramp
-		float x = (float) pos;
-		float r = 76.0f + 16.8f * x;
-		r = Math.min(Math.max(0, r), 255);
-		float g = 175.0f - 10.8f * x;
-		g = Math.min(Math.max(0, g), 255);
-		float b = 80.0f - 2.6f * x;
-		b = Math.min(Math.max(0, b), 255);
-		return new Color(r / 255, g / 255, b / 255);
+	public static HashMap<Double, Color> pa2hm(Double[] indxs, Color[] vals) {
+		HashMap<Double, Color> hm = new HashMap<Double, Color>();
+		for(int i = 0; i < indxs.length; i++) {
+			hm.put(indxs[i], vals[i]);
+		}
+		return hm;
+	}
+	public static boolean prcontains(double[] arr, double x) {
+		for(double d : arr)
+			if(d == x)
+				return true;
+		return false;
 	}
 }
