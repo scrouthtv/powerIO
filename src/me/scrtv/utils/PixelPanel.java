@@ -7,7 +7,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,9 +25,11 @@ public class PixelPanel extends JPanel {
 	private boolean udsymetry, lrsymetry;
 	private HashMap<String, Integer> properties = new HashMap<String, Integer>();
 	private HashMap<Integer[], ColoredText> overlays = new HashMap<Integer[], ColoredText>();
+	private double rotation = 0;
 	
 	@Override
 	public void paintComponent(Graphics g) {
+		((Graphics2D) g).rotate(rotation);
 		g.setColor(new Color(0.0f, 0.0f, 0.0f, 0.0f));
 		for(int x = 0; x < pixels.length; x++) {
 			for(int y = 0; y < pixels[x].length; y++) {
@@ -40,7 +41,6 @@ public class PixelPanel extends JPanel {
 		if(g instanceof Graphics2D) {
 			g.setColor(Color.BLACK);
 			Graphics2D g2d = (Graphics2D) g;
-			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			//g2d.drawString("text", 5, 5); TODO overlay
 			for(Entry<Integer[], ColoredText> ol : overlays.entrySet()) {
 				g2d.setColor(ol.getValue().getColor());
@@ -54,6 +54,11 @@ public class PixelPanel extends JPanel {
 		
 	}
 	
+	public void rotate(double degrees) {
+		this.rotation = degrees;
+		Main.mainframe.repaint();
+	}
+
 	public void addOverlay(String txt, int x, int y, Color c, Font f, boolean centered) {
 		overlays.put(new Integer[] {x, y}, new ColoredText(txt, c, f, centered));
 	}
@@ -72,6 +77,10 @@ public class PixelPanel extends JPanel {
 		width = w;
 		height = h;
 	}
+	/*public PixelPanel(int w, int h, int scale, double rotation) {
+	*	this(w, h, scale);
+	*	this.rotation = rotation;
+	}*/
 	
 	// this will draw the pixel(s) according to the set scale
 	public void drawPixel(int x, int y, Color c) {
