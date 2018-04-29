@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 
 import me.scrtv.assets.Characters;
 import me.scrtv.assets.Fonts;
+import me.scrtv.assets.HUDManager;
 import me.scrtv.assets.Pins;
 import me.scrtv.utils.CalcUtils;
 import me.scrtv.utils.PixelPanel;
@@ -42,8 +43,9 @@ public class Main {
 		pchar = Characters.basiccharacter(3);
 		
 		// TODO HUD
+		HUDManager.init();
 		
-		Fonts.registerFont("res/CHILLER.ttf");
+		Fonts.registerFont("res/fonts/CHILLER.ttf");
 		
 		keys = new Movement(pchar);
 		mainframe.addKeyListener(keys);
