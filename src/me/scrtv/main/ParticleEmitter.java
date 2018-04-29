@@ -1,17 +1,22 @@
 package me.scrtv.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.scrtv.utils.PixelPanel;
 
 public class ParticleEmitter implements Runnable {
+	// TODO particle emitter + rotation of pixelpanel (?!)
 	private int x, y, lifetime, alive;
-	private PixelPanel particles;
+	private PixelPanel particle;
 	private double amount;
+	private List<PixelPanel> particles = new ArrayList<PixelPanel>();
 	// amount in 0.0...1.0
 	// lifetime in ticks
-	public ParticleEmitter(int x, int y, PixelPanel particles, double amount, int lifetime) {
+	public ParticleEmitter(int x, int y, PixelPanel particle, double amount, int lifetime) {
 		this.x = x;
 		this.y = y;
-		this.particles = particles;
+		this.particle = particle;
 		this.amount = amount;
 		Main.clock.addListener(this, 1);
 		this.lifetime = lifetime;
