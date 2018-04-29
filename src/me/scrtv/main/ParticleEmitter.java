@@ -5,6 +5,7 @@ import java.util.List;
 
 import me.scrtv.utils.PixelPanel;
 
+@SuppressWarnings("unused")
 public class ParticleEmitter implements Runnable {
 	// TODO particle emitter + rotation of pixelpanel (?!)
 	private int x, y, lifetime, alive;
