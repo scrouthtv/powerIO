@@ -1,11 +1,11 @@
 package me.scrtv.main;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import me.scrtv.assets.HUDManager;
 import me.scrtv.assets.Obstacle;
 import me.scrtv.utils.PixelPanel;
 import me.scrtv.utils.Side;
@@ -53,10 +53,12 @@ public class Physics implements Runnable {
 					int str = collider.getProperty("strength"); // pin strength
 					int cHP = obst.getProperty("strength"); // current obstacle hp
 					if(str >= cHP) { // pin destroys the obstacle
+						Main.addScore(str);
 						obsts.remove(obst);
 						Main.mainframe.remove(obst); // TODO debris all over the screen on destroy
 					} else { // pin only damages it
 						obst.setProperty("strength", cHP - str);
+						Main.addScore(str);
 					}
 				}
 			}
@@ -72,16 +74,7 @@ public class Physics implements Runnable {
 		}
 			//System.out.println("new row");
 		if(Main.pchar.collides(obsts).size() > 0 && Main.loosable) {
-			//you loose
-			Main.clock.cancel();
-			System.out.println("you loose");
-			Main.mainframe.removeKeyListener(Main.keys);
-			PixelPanel ls = new PixelPanel(Main.mainframe.getWidth(), Main.mainframe.getHeight(), 1);
-			ls.pSetBackground(Color.BLACK);
-			ls.drawPixel(5, 5, Color.BLACK);
-			Main.mainframe.add(ls);
-			ls.setBounds(0, 0, ls.getWidth(), ls.getHeight());
-			
+			HUDManager.loose();
 		}
 	}
 }

@@ -22,7 +22,7 @@ public class Main {
 	public static BaseClock clock;
 	public static final Physics pX = new Physics(); // main physics
 	public static int cSP = 1; // what the tank will destroy in one second
-	public static final int maxobsthp = 10; // must be multiplied with cSP
+	public static final int maxobsthp = 10; // must be multiplied with cSP => this is max power
 	public static final boolean loosable = true;
 	public static KeyListener keys;
 	public static double mvMulti = 1.0; // can be lowered to slow the game down / etc.
@@ -43,11 +43,12 @@ public class Main {
 		mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pchar = Characters.basiccharacter(3);
 		
+		Fonts.registerFont("res/fonts/CHILLER.ttf");
+		Fonts.registerFont("res/fonts/AchGrotesque.otf");
+		
 		// TODO HUD
 		HUDManager.init();
 		
-		Fonts.registerFont("res/fonts/CHILLER.ttf");
-		Fonts.registerFont("res/fonts/AchGrotesque.otf", "Acherus");
 		keys = new Movement(pchar);
 		mainframe.addKeyListener(keys);
 		mainframe.add(pchar);

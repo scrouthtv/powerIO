@@ -5,6 +5,7 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import me.scrtv.utils.Utils;
 
@@ -14,6 +15,10 @@ public class Fonts {
 	public static Font useFont(String name) {
 		if(fonts.containsKey(name.toLowerCase().replace(" ", "")))
 			return fonts.get(name);
+		System.out.println("not found, listed:");
+		for(Entry<String, Font> fs : fonts.entrySet()) {
+			System.out.println(" - " + fs.getKey());
+		}
 		return null;
 	}
 	

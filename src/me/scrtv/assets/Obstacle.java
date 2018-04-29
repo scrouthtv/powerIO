@@ -13,12 +13,12 @@ public class Obstacle {
 	public static PixelPanel obstacle(int power) {
 		power = Math.min(Math.max(power, 0), Main.maxobsthp);
 		int hp = power * Main.cSP;
-		System.out.println("obstacle with " + hp);
+		// System.out.println("obstacle with " + hp);
 		PixelPanel pobst = new PixelPanel(1, 1, Main.ppb);
 		pobst.drawPixel(0, 0, ColorRamp.ryg.use((double) (Main.maxobsthp - power) / (double)Main.maxobsthp));
 		// TODO color per time it takes to destroy the block
-		pobst.setProperty("strength", power);
-		pobst.addOverlay(Utils.parseInt(power), 0, 0, Color.BLUE, new Font(Fonts.useFont("chiller").getName(), Font.BOLD, Main.ppb / 2), true);
+		pobst.setProperty("strength", hp);
+		pobst.addOverlay(Utils.parseInt(hp), 0, 0, Color.BLUE, new Font(Fonts.useFont("chiller").getName(), Font.BOLD, Main.ppb / 2), true);
 		return pobst;
 	}
 }

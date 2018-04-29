@@ -1,6 +1,7 @@
 package me.scrtv.assets;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,8 +17,8 @@ public class HUDManager {
 		score = new JLabel();
 		score.setText(Utils.parseInt(0));
 		Main.mainframe.add(score);
-		score.setBounds(0, 0, 100, 20);
-		score.setFont(Fonts.useFont("Acherus"));
+		score.setBounds(0, 0, 100, 50);
+		score.setFont(new Font(Fonts.useFont("achgrotesque").getName(), Font.BOLD, 50));
 		fail = new JPanel();
 		
 		//JButton restart = new JButton("retry");
@@ -30,5 +31,10 @@ public class HUDManager {
 	}
 	public static void changeScore(int ns) { // new score
 		score.setText(Utils.parseInt(ns));
+	}
+	public static void loose() {
+		Main.clock.cancel();
+		System.out.println("you loose");
+		Main.mainframe.removeKeyListener(Main.keys);
 	}
 }
