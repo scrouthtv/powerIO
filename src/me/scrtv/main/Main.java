@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
 import me.scrtv.assets.Characters;
+import me.scrtv.assets.Fonts;
 import me.scrtv.assets.Pins;
 import me.scrtv.utils.CalcUtils;
 import me.scrtv.utils.PixelPanel;
@@ -32,7 +33,7 @@ public class Main {
 		mainwidth = d.width;
 		mainframe.setSize(d);
 		mainframe.setLocation(CalcUtils.calcMainFramePosition());
-		mainframe.getContentPane().setBackground(Color.WHITE);
+		mainframe.getContentPane().setBackground(Color.DARK_GRAY);
 		mainframe.setLayout(null);
 		mainframe.setVisible(true);
 		mainframe.setTitle("power.io");
@@ -41,6 +42,8 @@ public class Main {
 		pchar = Characters.basiccharacter(3);
 		
 		// TODO HUD
+		
+		Fonts.registerFont("res/CHILLER.ttf");
 		
 		keys = new Movement(pchar);
 		mainframe.addKeyListener(keys);

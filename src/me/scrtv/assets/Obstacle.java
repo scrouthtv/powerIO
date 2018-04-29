@@ -18,7 +18,7 @@ public class Obstacle {
 		pobst.drawPixel(0, 0, ColorRamp.ryg.use((double) (Main.maxobsthp - power) / (double)Main.maxobsthp));
 		// TODO color per time it takes to destroy the block
 		pobst.setProperty("strength", power);
-		pobst.addOverlay(Utils.parseInt(power), 0, 0, Color.BLUE, new Font(Font.DIALOG_INPUT, Font.PLAIN, Main.ppb / 2), true);
+		pobst.addOverlay(Utils.parseInt(power), 0, 0, Color.BLUE, new Font(Fonts.useFont("chiller").getName(), Font.BOLD, Main.ppb / 2), true);
 		return pobst;
 	}
 }

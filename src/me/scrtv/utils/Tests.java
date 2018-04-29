@@ -16,6 +16,7 @@ public class Tests implements Runnable {
 //		
 //		System.out.println(Utils.parseInt(34598351));
 //		System.out.println(ColorRamp.ryg.use(0.25));
+		System.out.println(Utils.removeExt("chiller.1s.blabla.ttf"));
 	}
 
 	@Override

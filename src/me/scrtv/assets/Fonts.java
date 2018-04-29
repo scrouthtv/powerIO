@@ -1,40 +1,45 @@
 package me.scrtv.assets;
 
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
+import me.scrtv.utils.Utils;
+
 public class Fonts {
-	/*public static Font chiller;
-	
-	public static void mfga() {
-		try {
-			chiller = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/Megrim.ttf"));
-			if(!GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(chiller)) // dunno whether we need this TODO further testing
-				System.out.println("Chiller could not be loaded.");
-			else
-				System.out.println("Chiller was loaded.");
-		} catch (FontFormatException | IOException | NullPointerException ex) {
-			System.out.println("Chiller could not be loaded: " + ex.getMessage());
-		}
-	}*/
-	
 	private static HashMap<String, Font> fonts = new HashMap<String, Font>();
 	
-	public static Font useFont() {
-		if(fonts.contains(arg0))
+	public static Font useFont(String name) {
+		if(fonts.containsKey(name.toLowerCase().replace(" ", "")))
+			return fonts.get(name);
+		return null;
 	}
 	
 	public static boolean registerFont(File f, String name) {
-		
+		Font fn;
+		try {
+			fn = Font.createFont(Font.TRUETYPE_FONT, f);
+//			if(!GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(fn)) {
+//				return false;		we don't need this as everytime we are using the font, it's accessing the original resource
+//			} else {
+//				System.out.println("bp");
+				fonts.put(name.toLowerCase().replace(" ", ""), fn);
+				return true;
+//			}
+		} catch (FontFormatException | IOException ex) {
+			ex.printStackTrace();
+			return false;
+		}
 	}
 	public static boolean registerFont(File f) {
-		return registerFont(f, f.getName().toLowerCase());
+		return registerFont(f, Utils.removeExt(f.getName().toLowerCase()));
 	}
 	public static boolean registerFont(String file, String name) {
 		return registerFont(new File(file));
 	}
 	public static boolean registerFont(String file) {
-		return registerFont(new File(file), new File(file).getName().toLowerCase());
+		return registerFont(new File(file), Utils.removeExt(new File(file).getName().toLowerCase()));
 	}
 }

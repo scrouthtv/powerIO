@@ -39,4 +39,12 @@ public class Utils {
 				return true;
 		return false;
 	}
+	public static String removeExt(String f) {
+		String[] parts = f.split("\\.");
+		String fn = "";
+		for(int i = 0; i < (parts.length - 1); i++) {
+			fn += parts[i];
+		}
+		return fn;
+	}
 }
