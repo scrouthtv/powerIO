@@ -25,7 +25,8 @@ public class Main {
 	public static final int maxobsthp = 10; // must be multiplied with cSP
 	public static final boolean loosable = true;
 	public static KeyListener keys;
-	public static double mvMulti = 1.0; // can be lowered to slow the game down / etc. 
+	public static double mvMulti = 1.0; // can be lowered to slow the game down / etc.
+	private static int score = 0;
 	
 	public static void main(String[] args) {
 		new Font(Font.DIALOG_INPUT, 0, 0);
@@ -46,10 +47,9 @@ public class Main {
 		HUDManager.init();
 		
 		Fonts.registerFont("res/fonts/CHILLER.ttf");
-		
+		Fonts.registerFont("res/fonts/AchGrotesque.otf", "Acherus");
 		keys = new Movement(pchar);
 		mainframe.addKeyListener(keys);
-		
 		mainframe.add(pchar);
 		pchar.setBounds(135, mainheight - pchar.getPreferredSize().height - ppb, pchar.getPreferredSize().width, pchar.getPreferredSize().height);
 		
@@ -71,5 +71,16 @@ public class Main {
 			int posy = (int) (pchar.getY() + (pchar.getProperty("s" + i + "y") - 1) * pchar.getScale() + pchar.getScale() / 2 - pin.getPreferredSize().getHeight()); // TODO loose screen not spawning?
 			pX.spawnPin(Pins.basicpin(1, 1), posx, posy);
 		}
+	}
+	public static int getScore() {
+		return score;
+	}
+	public static void addScore(int plus) {
+		Main.score += plus;
+		HUDManager.changeScore(Main.score);
+	}
+	public static void restart() {
+		Main.score = 0;
+		HUDManager.changeScore(Main.score);
 	}
 }
