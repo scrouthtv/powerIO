@@ -62,9 +62,8 @@ public class PixelPanel extends JPanel {
 	public void addOverlay(String txt, int x, int y, Color c, Font f, boolean centered) {
 		overlays.put(new Integer[] {x, y}, new ColoredText(txt, c, f, centered));
 	}
-	public void addOverlay(String txt, int x, int y) {
-		System.out.println(txt);
-		
+	public void clearOverlays() {
+		overlays.clear();
 	}
 	
 	// scale will be set to at least 1

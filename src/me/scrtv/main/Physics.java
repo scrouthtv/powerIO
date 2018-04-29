@@ -1,14 +1,19 @@
 package me.scrtv.main;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import me.scrtv.assets.Fonts;
 import me.scrtv.assets.HUDManager;
 import me.scrtv.assets.Obstacle;
+import me.scrtv.utils.ColorRamp;
 import me.scrtv.utils.PixelPanel;
 import me.scrtv.utils.Side;
+import me.scrtv.utils.Utils;
 
 public class Physics implements Runnable {
 	public static int tt = 0; // table top
@@ -57,7 +62,11 @@ public class Physics implements Runnable {
 						obsts.remove(obst);
 						Main.mainframe.remove(obst); // TODO debris all over the screen on destroy
 					} else { // pin only damages it
-						obst.setProperty("strength", cHP - str);
+						int strength = cHP - str;
+						obst.setProperty("strength", strength);
+						obst.clearOverlays();
+						obst.addOverlay(Utils.parseInt(strength), 0, 0, Color.BLUE, new Font(Fonts.useFont("chiller").getName(), Font.BOLD, Main.ppb / 2), true);
+						obst.drawPixel(0, 0, ColorRamp.ryg.use((double) (Main.maxobsthp - strength / Main.cSP) / (double)Main.maxobsthp));
 						Main.addScore(str);
 					}
 				}
@@ -76,5 +85,16 @@ public class Physics implements Runnable {
 		if(Main.pchar.collides(obsts).size() > 0 && Main.loosable) {
 			HUDManager.loose();
 		}
+	}
+	public void restart() { // clear everything
+		for(PixelPanel obst : obsts) {
+			obsts.remove(obst);
+			Main.mainframe.remove(obst);
+		}
+		for(PixelPanel pin : pins) {
+			pins.remove(pin);
+			Main.mainframe.remove(pin);
+		}
+		Main.mainframe.revalidate();;
 	}
 }

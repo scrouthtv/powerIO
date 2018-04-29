@@ -13,7 +13,7 @@ import me.scrtv.assets.HUDManager;
 import me.scrtv.assets.Pins;
 import me.scrtv.utils.CalcUtils;
 import me.scrtv.utils.PixelPanel;
-import me.scrtv.utils.Tests;
+import me.scrtv.utils.Utils;
 
 public class Main {
 	public static JFrame mainframe = new JFrame();
@@ -21,8 +21,8 @@ public class Main {
 	public static int mainheight, mainwidth, ppb;
 	public static BaseClock clock;
 	public static final Physics pX = new Physics(); // main physics
-	public static int cSP = 1; // what the tank will destroy in one second
-	public static final int maxobsthp = 10; // must be multiplied with cSP => this is max power
+	public static int cSP = 10; // what the tank will destroy in one second
+	public static final int maxobsthp = 10; // must be multiplied with cSP => this var is max power
 	public static final boolean loosable = true;
 	public static KeyListener keys;
 	public static double mvMulti = 1.0; // can be lowered to slow the game down / etc.
@@ -54,15 +54,7 @@ public class Main {
 		mainframe.add(pchar);
 		pchar.setBounds(135, mainheight - pchar.getPreferredSize().height - ppb, pchar.getPreferredSize().width, pchar.getPreferredSize().height);
 		
-		clock = new BaseClock();
-		clock.addListener(pX, 1);
-		clock.addListener(new Tests(), 25); // shoot every 25 ticks
-		clock.addListener(new Runnable() {
-			@Override
-			public void run() {
-				Main.mainframe.repaint();
-			}
-		}, 1);
+		BaseClock.start();
 	}
 	public static void shoot() {
 		int n = pchar.getProperty("sn");
@@ -73,14 +65,17 @@ public class Main {
 			pX.spawnPin(Pins.basicpin(1, 1), posx, posy);
 		}
 	}
-	public static int getScore() {
+	public static String getScore() {
+		return Utils.parseInt(score);
+	}
+	public static int getIScore() {
 		return score;
 	}
 	public static void addScore(int plus) {
 		Main.score += plus;
 		HUDManager.changeScore(Main.score);
 	}
-	public static void restart() {
+	public static void clearScore() {
 		Main.score = 0;
 		HUDManager.changeScore(Main.score);
 	}

@@ -6,15 +6,13 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import me.scrtv.utils.Tests;
+
 public class BaseClock extends TimerTask {
 	private long tick = 0;
+	private Timer t;
 	private HashMap<Runnable, Integer> listeners = new HashMap<Runnable, Integer>(); 
 	private final static long period = 20; // tick time in ms
-	public BaseClock() {
-		Timer t = new Timer();
-		TimerTask tt = this;
-		t.scheduleAtFixedRate(tt, 0, period);
-	}
 	@Override
 	public void run() {
 		Set<Entry<Runnable, Integer>> rs = listeners.entrySet();
@@ -30,5 +28,22 @@ public class BaseClock extends TimerTask {
 	}
 	public void removeListener(Runnable r) {
 		listeners.remove(r);
+	}
+	public void clear() {
+		t.cancel();
+		t.purge();
+	}
+	public static void start() {
+		Timer t = new Timer();
+		Main.clock = new BaseClock();
+		t.scheduleAtFixedRate(Main.clock, 0, period);
+		Main.clock.addListener(Main.pX, 1);
+		Main.clock.addListener(new Tests(), 25); // shoot every 25 ticks
+		Main.clock.addListener(new Runnable() {
+			@Override
+			public void run() {
+				Main.mainframe.revalidate();
+				Main.mainframe.repaint();
+			}}, 1);
 	}
 }
