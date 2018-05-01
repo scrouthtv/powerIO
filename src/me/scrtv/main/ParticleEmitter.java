@@ -28,7 +28,9 @@ public class ParticleEmitter implements Runnable {
 		if(alive >= lifetime)
 			Main.clock.removeListener(this);
 		else {
-			
+			for(PixelPanel p : particles) {
+				p.rotate(2);
+			}
 		}
 		alive++;
 	}

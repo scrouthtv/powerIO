@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,42 +20,51 @@ import me.scrtv.main.Main;
 public class PixelPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Color[][] pixels;
-	private int scale, width, height; // w & h is *not* upscaled
+	private int scale, width, height, mx, my, pushx, pushy; // w & h is *not* upscaled
 	private boolean udsymetry, lrsymetry;
 	private HashMap<String, Integer> properties = new HashMap<String, Integer>();
 	private HashMap<Integer[], ColoredText> overlays = new HashMap<Integer[], ColoredText>();
-	private double rotation = 0;
+	//private double rotation = 0.0; // 0 - 360 = 2pi
+	private double cosa, sina;
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		((Graphics2D) g).rotate(rotation);
 		g.setColor(new Color(0.0f, 0.0f, 0.0f, 0.0f));
 		for(int x = 0; x < pixels.length; x++) {
 			for(int y = 0; y < pixels[x].length; y++) {
 				g.setColor(pixels[x][y]);
-				g.fillRect(x * scale, y * scale, scale, scale);
+				for(int i1 = 0; i1 < scale; i1++) {
+					for(int i2 = 0; i2 < scale; i2++) {
+						int oldx = scale * x + i1 - mx; // not
+						int oldy = scale * y + i2 - my; // rotated
+						
+						int newx = (int)   (cosa * oldx + sina * oldy) + mx + pushx; // rotated and back
+						int newy = (int) (- sina * oldx + cosa * oldy) + my + pushy; // to g2d coords
+						g.fillRect(newx, newy, 1, 1); // pixel graphics by scale * ( x + y)
+					}
+				}
 				g.setColor(new Color(0.0f, 0.0f, 0.0f, 0.0f));
 			}
 		}
-		if(g instanceof Graphics2D) {
-			g.setColor(Color.BLACK);
-			Graphics2D g2d = (Graphics2D) g;
-			//g2d.drawString("text", 5, 5); TODO overlay
-			for(Entry<Integer[], ColoredText> ol : overlays.entrySet()) {
-				g2d.setColor(ol.getValue().getColor());
-				g2d.setFont(ol.getValue().getFont());
-				if(ol.getValue().isCentered())
-					drawCenteredString(g2d, ol.getValue().getText(), this.getBounds(), ol.getValue().getFont());
-				else
-					g2d.drawString(ol.getValue().getText(), ol.getKey()[0], ol.getKey()[1]);
-			}
+		g.setColor(Color.BLACK);
+		for(Entry<Integer[], ColoredText> ol : overlays.entrySet()) {
+			g.setColor(ol.getValue().getColor());
+			g.setFont(ol.getValue().getFont());
+			if(ol.getValue().isCentered())
+				drawCenteredString(g, ol.getValue().getText(), this.getBounds(), ol.getValue().getFont());
+			else
+				g.drawString(ol.getValue().getText(), ol.getKey()[0], ol.getKey()[1]);
 		}
-		
 	}
 	
+	// 0...degrees...360
 	public void rotate(double degrees) {
-		this.rotation = degrees;
-		Main.mainframe.repaint();
+		System.out.println("rotated around " + degrees);
+		//rotation = degrees;
+		cosa = Math.cos(degrees * 2 * Math.PI / 360);
+		sina = Math.sin(degrees * 2 * Math.PI / 360);
+		repaint();
+		System.out.println(mx);
 	}
 
 	public void addOverlay(String txt, int x, int y, Color c, Font f, boolean centered) {
@@ -69,12 +77,19 @@ public class PixelPanel extends JPanel {
 	// scale will be set to at least 1
 	public PixelPanel(int w, int h, int scale) {
 		scale = Math.max(scale, 1);
-		pixels = new Color[w * scale][h * scale];
-		this.setPreferredSize(new Dimension(w * scale, h * scale));
+		// [w * scale][h * scale] ??
+		pixels = new Color[w][h];
+		int size = (int) Math.sqrt(w * w * scale * scale + h * h * scale * scale);
+		pushx = (size - w * scale) / 2;
+		pushy = (size - h * scale) / 2;
+		this.setPreferredSize(new Dimension(size, size));
 		this.scale = scale;
 		udsymetry = false;
 		width = w;
 		height = h;
+		mx = scale * w / 2;
+		my = scale * h / 2;
+		rotate(0);
 	}
 	/*public PixelPanel(int w, int h, int scale, double rotation) {
 	*	this(w, h, scale);
@@ -141,7 +156,7 @@ public class PixelPanel extends JPanel {
 	}
 	public boolean collides(JComponent test) {
 		Rectangle rectB = test.getBounds();
-		Rectangle result = SwingUtilities.computeIntersection(getX(), getY(), getWidth(), getHeight(), rectB);
+		Rectangle result = SwingUtilities.computeIntersection(getX(), getY(), getWidth() - pushx, getHeight(), rectB);
 		return (result.getWidth() > 0 && result.getHeight() > 0);
 	}
 	public List<PixelPanel> collides(List<PixelPanel> tests) {
@@ -165,4 +180,5 @@ public class PixelPanel extends JPanel {
 		g.setFont(font);
 		g.drawString(text, x, y);
 	}
+	private Rectangle getEdge(Side s)
 }

@@ -21,7 +21,7 @@ public class Main {
 	public static int mainheight, mainwidth, ppb;
 	public static BaseClock clock;
 	public static final Physics pX = new Physics(); // main physics
-	public static int cSP = 10; // what the tank will destroy in one second
+	public static int cSP = 1; // what the tank will destroy in one second TODO add some randomness to obstacle hp (e. g. 1 % +-)
 	public static final int maxobsthp = 10; // must be multiplied with cSP => this var is max power
 	public static final boolean loosable = true;
 	public static KeyListener keys;
@@ -62,7 +62,7 @@ public class Main {
 			PixelPanel pin = Pins.basicpin(1, 1);
 			int posx = pchar.getX() + (pchar.getProperty("s" + i + "x") - 1) * pchar.getScale() + pchar.getScale() / 2;
 			int posy = (int) (pchar.getY() + (pchar.getProperty("s" + i + "y") - 1) * pchar.getScale() + pchar.getScale() / 2 - pin.getPreferredSize().getHeight()); // TODO loose screen not spawning?
-			pX.spawnPin(Pins.basicpin(1, 1), posx, posy);
+			pX.spawnPin(Pins.basicpin(cSP, 1), posx, posy);
 		}
 	}
 	public static String getScore() {
