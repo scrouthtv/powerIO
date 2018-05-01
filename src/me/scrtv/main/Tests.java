@@ -1,6 +1,6 @@
-package me.scrtv.utils;
+package me.scrtv.main;
 
-import me.scrtv.main.Main;
+import me.scrtv.utils.Utils;
 
 public class Tests implements Runnable {
 
