@@ -47,7 +47,7 @@ public class Physics implements Runnable {
 			}
 			for(PixelPanel obst : obsts) {
 				obst.move(0, 1, false);
-				if(!obst.isOnMap(new Side[] {Side.TOP})) {
+				if(!obst.isOnMap(new Side[] {Side.N})) {
 					Main.mainframe.remove(obst);
 					obsts.remove(obst);
 				}

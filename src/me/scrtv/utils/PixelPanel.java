@@ -141,13 +141,13 @@ public class PixelPanel extends JPanel {
 		return isOnMap(Side.values());
 	}
 	public boolean isOnMap(Side[] sides) {
-		if(this.getBounds().getX() + this.getPreferredSize().getWidth() < 0 && Utils.contains(sides, Side.LEFT))
+		if(this.getBounds().getX() + this.getPreferredSize().getWidth() < 0 && Utils.contains(sides, Side.W))
 			return false;
-		if(this.getBounds().getX() > Main.mainwidth && Utils.contains(sides, Side.RIGHT))
+		if(this.getBounds().getX() > Main.mainwidth && Utils.contains(sides, Side.E))
 			return false;
-		if(this.getBounds().getY() + this.getPreferredSize().getHeight() < 0 && Utils.contains(sides, Side.TOP))
+		if(this.getBounds().getY() + this.getPreferredSize().getHeight() < 0 && Utils.contains(sides, Side.N))
 			return false;
-		if(this.getBounds().getY() > Main.mainheight && Utils.contains(sides, Side.BOTTOM))
+		if(this.getBounds().getY() > Main.mainheight && Utils.contains(sides, Side.S))
 			return false;
 		return true;
 	}
@@ -180,5 +180,10 @@ public class PixelPanel extends JPanel {
 		g.setFont(font);
 		g.drawString(text, x, y);
 	}
-	private Rectangle getEdge(Side s)
+	/* will return the edge at the given Side s
+	 * (looking at the painted / rotated pixelpanel)
+	 */
+	private Rectangle[] getREdge(Side s) {
+		Rectangle edge1 = 
+	}
 }

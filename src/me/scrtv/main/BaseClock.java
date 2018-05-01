@@ -6,8 +6,6 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import me.scrtv.utils.Tests;
-
 public class BaseClock extends TimerTask {
 	private long tick = 0;
 	private Timer t;
