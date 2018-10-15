@@ -183,7 +183,7 @@ public class PixelPanel extends JPanel {
 	/* will return the edge at the given Side s
 	 * (looking at the painted / rotated pixelpanel)
 	 */
-	private Rectangle[] getREdge(Side s) {
-		Rectangle edge1 = 
-	}
+	//private Rectangle[] getREdge(Side s) {
+	//	Rectangle edge1 = 
+	//}
 }
